@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
+  <title>FOSS Licenses Comparison</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="main">
+      <div class="header">
+        <a href="../"><i class="material-icons back_arrow">subdirectory_arrow_left</i>&nbsp;FOSS licenses comparison</a>
+        <hr />
+      </div>
+
+      <p style="text-align: center">Is..</p>
+
+      <table style="border: 0 solid #000000; border-spacing: 0; font-size: 14px" align="center">
+        <tbody>
+          <tr>
+            <td>&nbsp;</td>
+            <td style="text-align: center">
+              <b>Source license</b>
+            </td>
+            <td>compatible with</td>
+            <td style="text-align: center">
+              <b>your license?</b>
+            </td>
+            <td>&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td>&nbsp;</td>
+            <td style="text-align:center; vertical-align:middle; padding:4px; width:100px; min-width:100px;">
+                <select id="source" onchange="compare()">
+                    <option value="MIT">MIT</option>
+                    <option value="Unlicense">Unlicense</option>
+                    <option value="0-Clause-BSD">0-Clause BSD</option>
+                    <option value="Apache-2.0">Apache 2.0</option>
+                    <option value="GPLv3">GPLv3</option>
+                    <option value="GPLv2">GPLv2</option>
+                    <option value="ISC">ISC</option>
+                    <option value="MPL-2.0">MPL 2.0</option>
+                    <option value="PublicDomain">Public Domain</option>
+                    <option value="Unlicensed">No License</option>
+                    <option value="Closed">Closed Source</option>
+                    <option value="3-Clause-BSD">3-Clause BSD</option>
+                    <option value="2-Clause-BSD">2-Clause BSD</option>
+                </select>
+            </td>
+            <td style="text-align:center; vertical-align:middle; padding:4px; width:100px; min-width:100px;">
+                <button id="switch" onclick="_switch(); compare()" type="button"><span style="color:#000000; white-space:nowrap;">&nbsp;<span style="vertical-align: baseline; position:relative; top:-0.1em; line-height:0;">&larr;</span> Switch <span style="vertical-align: baseline; position:relative; top:-0.1em; line-height:0;">&rarr;</span>&nbsp;</span></button>
+            </td>
+            <td style="text-align:center; vertical-align:middle; padding:4px; width:100px; min-width:100px;">
+                <select id="host" onchange="compare()">
+                  <option value="MIT">MIT</option>
+                  <option value="Unlicense">Unlicense</option>
+                  <option value="0-Clause-BSD">0-Clause BSD</option>
+                  <option value="Apache-2.0">Apache 2.0</option>
+                  <option value="GPLv3">GPLv3</option>
+                  <option value="GPLv2">GPLv2</option>
+                  <option value="ISC">ISC</option>
+                  <option value="PublicDomain">Public Domain</option>
+                  <option value="PrivateUse">Private Use</option>
+                  <option value="MPL-2.0">MPL 2.0</option>
+                  <option value="3-Clause-BSD">3-Clause BSD</option>
+                  <option value="2-Clause-BSD">2-Clause BSD</option>
+                </select>
+            </td>
+            <td>&nbsp;</td>
+        </tr>
+        </tbody>
+      </table>
+      <br>
+      <p style="text-align: center" id="result"></p>
+      <span style="text-align: center">
+        <table class="faq">
+          <tbody>
+            <tr><td>
+              <span class="title">Are you a lawyer?</span>
+              <p>No.</p>
+              <span class="title">Is this legal advice?</span>
+              <p>No.</p>
+              <span class="title">I've been sued for violating a license agreement based on your advice. Will you help me?</span>
+              <p>No, but I bought popcorn. Give me your case number.</p>
+              <span class="title">Do licenses matter if I dynamically link?</span>
+              <p><a href="https://www.gnu.org/licenses/gpl-faq.en.html#GPLStaticVsDynamic">The FSF says yes</a>, but the jury is out. Probably.</p>
+              <span class="title">I've modified a file with license X. What license(s) are my modifications under?</span>
+              <p>There has never been a legal case arguing that different portions of a source file are under different licenses.
+So unless the source file is public domain, your modifications are probably also under the license of the original file.
+You may have to state your modifications and distribute the file upon request, depending on the license's requirements.
+              </p>
+              <span class="title">Can I modify a file's copyright/licence notice?</span>
+              <p>No.</p>
+              <span class="title">Can I create my own license, or modify a different license?</span>
+              <p>Usually, as long as you don't violate any trademarks of the original license authors.
+              But you probably shouldn't, licenses are often vary particular.</p>
+              <span class="title">2 or 3 Clause BSD, MIT, or ISC?</span>
+              <p>They are all functionally equivalent. If you're modifying a project using one of these
+licenses, you should just keep it. If you're writing new software, the ISC license is the shortest.
+However, if you want to make your ownership of any trademarks your software uses very clear, use 3-Clause BSD.
+              </p>
+
+              <span class="title">I found a bug</span>
+              <p>That's not a question. Please submit it here <a href="https://github.com/imtira/lc">github.com/imtira/lc</a></p>
+            </td></tr>
+          </tbody>
+        </table>
+      </span>
+    </div>
+  </div>
+
+  <div class="footer" onclick="document.getElementById('profile_link').click();">
+    <a id="profile_link" target="_blank" href="https://github.com/imtira">(c) tira 2021</a>
+</div>
+
+<script>
+  function _switch() {
+    let source_license = document.getElementById('source');
+    let host_license = document.getElementById('host');
+    let source_license_cp = source_license.value;
+  
+    source_license.value = host_license.value;
+    host_license.value = source_license_cp;
+
+    if (source_license.value == '') {
+      source_license.value = 'MIT';
+    }
+    if (host_license.value == '') {
+      host_license.value = 'MIT';
+    }
+  }
+  
+  function compare() {
+    let source_license = document.getElementById('source').value;
+    let host_license = document.getElementById('host').value;
+    let out = document.getElementById('result');
+  
+    if (source_license == 'Closed') {
+      out.innerHTML = no(`However you got your hands on closed source source code was probably illegal in itself.`);
+    } else if (source_license == 'Unlicensed' && host_license != 'PrivateUse') {
+      out.innerHTML = no(`Depending on jurisdiction, works without an explicit license grants no rights to the user.`);
+    } else if (host_license == 'PrivateUse') {
+      out.innerHTML = yes(`As long as you don't distribute your program, you can use any amount of any project's code in any way you'd like.`);
+    } else if (source_license == `MIT` || source_license == 'ISC') {
+      out.innerHTML = conditions(`Strictly, you must only retain the copyright notice in the
+source work's source code, but attribution is often also given in the program itself.`);
+    } else if (source_license == 'Apache-2.0') {
+      out.innerHTML = conditions(`Any Apache 2.0 files you modify must contain a clear notice that they were modified.
+Additionally, any person you give your project to must also recieve a copy of the Apache 2.0 license, and, if applicable,
+the source project's "NOTICE" file in a readable form—<br>if you only release commercial binaries, you must
+include the "NOTICE" file's full text <b>viewably, inside your binary</b>.`);
+    } else if (source_license == 'MPL-2.0') {
+      out.innerHTML = conditions(`You must supply and/or inform users that they can recieve a copy of the MPL 2.0,
+and the source project, including any modifications you've made and files you've created that contains any MPL 2.0
+code.`);
+    }  else if (source_license == '3-Clause-BSD') {
+      out.innerHTML = conditions(`If you redistribute BSD 3-clause licensed code anywhere, you must also
+include a copy of the license alongside it—whether inside binaries or in source code.<br>
+Additionally, the license's 3rd clause states you must not use the name of the project or
+its contributors in derived products (though this may be implied in your jurisdiction).`);
+    } else if (source_license == '2-Clause-BSD') {
+      out.innerHTML = conditions(`If you redistribute BSD 2-clause licensed code anywhere, you must also
+include a copy of the license alongside it—whether inside binaries or in source code.`);
+    } else if (source_license == 'Unlicense' || source_license == 'PublicDomain' || source_license == '0-Clause-BSD') {
+      out.innerHTML = yes(`Explicitly public domain licenses grant every right to users.`);
+    } else if (source_license.indexOf('GPL') != -1 && host_license.indexOf('GPL') == -1) {
+      out.innerHTML = no(`GPL code can only be used in other GPL-licensed projects.`);
+    } else if (source_license.indexOf('GPL') != -1 && host_license.indexOf('GPL') != -1) {
+      out.innerHTML = yes(``);
+    } else {
+      out.innerHTML = 'You shouldn\'t be seeing this :(';
+    }
+  }
+  
+  function yes(reason) {
+    return '<span style="color: green; font-size: 50px;">Yes</span><p>' + reason + '</p>';
+  }
+  
+  function no(reason) {
+    return '<span style="color: red; font-size: 50px;">No</span><p>' + reason + '</p>';
+  }
+  
+  function conditions(cond) {
+    return '<span style="color: orange; font-size: 50px;">With conditions</span><p>' + cond + '</p>';
+  }
+  
+  window.onload = compare;
+  </script>
+
+<style>
+tbody *, td span, td p {
+  text-align: center;
+}
+
+.faq {
+  min-width: 100%;
+}
+
+#result, td p {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  padding: 0;
+}
+
+body {
+  font-family:        "Consolas", "Inconsolata", "Lucida Console", Monospace;
+  font-size:          15px;
+  line-height:        120%;
+  min-height:         100%;
+}
+
+.number {
+  font-family:        "Consolas", "Inconsolata", "Lucida Console", Monospace;
+  font-size:          15px;
+}
+
+.wrapper {
+  min-height: 100%;
+  position: relative;
+}
+
+.main {
+  border:             0 solid transparent;
+  font-size:          15px;
+  padding-bottom:     48px;
+  margin-left:        auto;
+  margin-right:       auto;
+}
+
+div.footer {
+  width:              100%;
+  position:           sticky;
+  bottom:             0;
+  left:               0;
+  vertical-align:     middle;
+  background-color:   #DDDDDD;
+  cursor:             pointer;
+  min-width:          512px;
+  padding-top:        10px;
+  padding-bottom:     10px;
+  font-family:        "Consolas", "Inconsolata", "Lucida Console", Monospace;
+  font-size:          15px;
+}
+
+div.footer a {
+  color:              #888888;
+  text-decoration:    none;
+  vertical-align:     middle;
+  padding:            10px;
+}
+
+div.header {
+  font-family:        "Consolas", "Inconsolata", "Lucida Console", Monospace;
+  line-height:        120%;
+  font-weight:        bold;
+  font-size:          16px;
+  padding: 12px 16px 0 16px;
+  min-width:          480px;
+}
+
+div.header a {
+  color:              #000000;
+  text-decoration:    none;
+  cursor:             pointer;
+}
+
+div.header span {
+  color:              #000000;
+}
+
+div.header .back_arrow {
+  transform:rotate(90deg) scale(0.75);
+  line-height:0;
+  position:relative;
+  bottom:-0.2em;
+}
+
+.title {
+  font-weight: bold;
+}
+
+table, tr, td {
+  padding: 4px;
+  border: 0 solid transparent;
+}
+
+a:link, a:visited {
+color: #777777;
+text-decoration: none;
+}
+
+a:hover, a:active {
+  color: #000000;
+  text-decoration: underline;
+}
+
+hr {
+  height:             1px;
+  border-width:       0;
+  color:              #888888;
+  background-color:   #888888;
+}
+</style>
+</body>
+
+</html>
